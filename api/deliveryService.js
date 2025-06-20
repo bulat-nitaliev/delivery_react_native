@@ -45,9 +45,19 @@ export const createDelivery = async (deliveryData) => {
 
 export const updateDelivery = async (id, deliveryData) => {
   try {
-    const response = await $api.patch(`/api/deliveries/${id}/`, {deliveryData});
+    const config = {
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await $api.patch(
+      `/api/deliveries/${id}/`,
+      deliveryData,
+      config
+    );
     console.log(response.data);
-    
+
     return response.data;
   } catch (error) {
     console.error("Ошибка при обновлении доставки:", error);
@@ -58,7 +68,7 @@ export const updateDelivery = async (id, deliveryData) => {
 export const deleteDelivery = async (id) => {
   try {
     await $api.delete(`/api/deliveries/${id}/`);
-    console.log('delete', id);
+    console.log("delete", id);
 
     return true;
   } catch (error) {

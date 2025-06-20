@@ -8,17 +8,17 @@ export default function DeliveryDetailScreen({ route, navigation }) {
   const { delivery } = route.params;
   const deleteDeliveryId = async (item) => {
     await deleteDelivery(item);
-    navigation.navigate("DeliveryList")
+    navigation.navigate("DeliveryList");
   };
-  const updateStatus = async (item)=>{
+  const updateStatus = async (item) => {
     const dataDelivery = {
-      stutus_delivery_id: 1,
-    }
+      stutus_delivery: 1 ,
+    };
     console.log(dataDelivery);
-    
-    await updateDelivery(item.id, dataDelivery)
-    navigation.navigate("DeliveryList")
-  }
+
+    await updateDelivery(item.id, dataDelivery);
+    navigation.navigate("DeliveryList");
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -76,7 +76,9 @@ export default function DeliveryDetailScreen({ route, navigation }) {
       <View style={styles.actions}>
         <Button
           mode="contained"
-          onPress={()=>{updateStatus(delivery)}}
+          onPress={() => {
+            updateStatus(delivery);
+          }}
           style={styles.actionButton}
           disabled={delivery.stutus_delivery === "Проведено"}
         >

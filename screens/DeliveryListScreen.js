@@ -1,23 +1,31 @@
-
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { Appbar, Card, Button } from "react-native-paper";
 
-import  { useState, useEffect } from 'react';
-import { getDeliveries } from '../api/deliveryService';
-
-  
+import { useState, useEffect } from "react";
+import { getDeliveries, updateDelivery } from "../api/deliveryService";
 
 export default function DeliveryListScreen({ navigation }) {
   const [deliveries, setDeliveries] = useState([]);
+  const [isUpdate, setISUpdate] = useState(false)
+
+  const updateStatus = async (item) => {
+    const dataDelivery = {
+      stutus_delivery: 1,
+    };
+    setISUpdate(true)
+    await updateDelivery(item.id, dataDelivery);
+    navigation.navigate("DeliveryList");
+    setISUpdate(!isUpdate)
+  };
 
   useEffect(() => {
     const fetchDeliveries = async () => {
       const data = await getDeliveries();
       setDeliveries(data);
     };
-    
+
     fetchDeliveries();
-  }, []);
+  }, [isUpdate]);
   return (
     <View style={{ flex: 1, backgroundColor: "#555" }}>
       <Appbar.Header>
@@ -47,7 +55,8 @@ export default function DeliveryListScreen({ navigation }) {
                 <Text
                   variant="bodyMedium"
                   style={{
-                    color: item.stutus_delivery === "Проведено" ? "green" : "orange",
+                    color:
+                      item.stutus_delivery === "Проведено" ? "green" : "orange",
                   }}
                 >
                   Статус: {item.stutus_delivery}
@@ -61,7 +70,13 @@ export default function DeliveryListScreen({ navigation }) {
                 >
                   Редактировать
                 </Button>
-                <Button mode="contained" disabled={item.stutus_delivery === "Проведено"}>
+                <Button
+                  mode="contained"
+                  disabled={item.stutus_delivery === "Проведено"}
+                  onPress={() => {
+                    updateStatus(item);
+                  }}
+                >
                   Провести
                 </Button>
               </Card.Actions>
