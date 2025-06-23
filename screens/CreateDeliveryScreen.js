@@ -3,14 +3,14 @@
 // import { Appbar, TextInput, Button, RadioButton, Card } from 'react-native-paper';
 
 // export default function CreateDeliveryScreen({ navigation }) {
-//   const [model, setModel] = useState('');
-//   const [departureTime, setDepartureTime] = useState('');
-//   const [deliveryTime, setDeliveryTime] = useState('');
-//   const [distance, setDistance] = useState('');
-//   const [service, setService] = useState('');
-//   const [packaging, setPackaging] = useState('');
-//   const [status, setStatus] = useState('В ожидании');
-//   const [technicalStatus, setTechnicalStatus] = useState('Исправно');
+// const [model, setModel] = useState('');
+// const [departureTime, setDepartureTime] = useState('');
+// const [deliveryTime, setDeliveryTime] = useState('');
+// const [distance, setDistance] = useState('');
+// const [service, setService] = useState('');
+// const [packaging, setPackaging] = useState('');
+// const [status, setStatus] = useState('В ожидании');
+// const [technicalStatus, setTechnicalStatus] = useState('Исправно');
 
 //   const handleCreate = () => {
 //     console.log('Создание доставки:', {
@@ -50,13 +50,13 @@
 //       <Card style={styles.card}>
 //         <Card.Title title="Время в пути" />
 //         <Card.Content>
-//           <TextInput
-//             label="Отправка"
-//             value={departureTime}
-//             onChangeText={setDepartureTime}
-//             style={styles.input}
-//             placeholder="Сегодня в 12:09"
-//           />
+// <TextInput
+//   label="Отправка"
+//   value={departureTime}
+//   onChangeText={setDepartureTime}
+//   style={styles.input}
+//   placeholder="Сегодня в 12:09"
+// />
 //           <TextInput
 //             label="Доставка"
 //             value={deliveryTime}
@@ -70,13 +70,13 @@
 //       <Card style={styles.card}>
 //         <Card.Title title="Дистанция" />
 //         <Card.Content>
-//           <TextInput
-//             label="Дистанция (км)"
-//             value={distance}
-//             onChangeText={setDistance}
-//             keyboardType="numeric"
-//             style={styles.input}
-//           />
+// <TextInput
+//   label="Дистанция (км)"
+//   value={distance}
+//   onChangeText={setDistance}
+//   keyboardType="numeric"
+//   style={styles.input}
+// />
 //           <TextInput
 //             label="Откуда"
 //             style={styles.input}
@@ -161,7 +161,7 @@
 //     margin: 20,
 //   },
 // });
-
+import * as ImagePicker from "expo-image-picker";
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import {
@@ -177,18 +177,75 @@ const CreateDeliveryScreen = ({ navigation }) => {
   const theme = useTheme();
   const [service, setService] = useState(null);
   const [packaging, setPackaging] = useState(null);
+  const [model, setModel] = useState(null);
+  const [number, setNumber] = useState(null);
   const [isCreateEnabled, setIsCreateEnabled] = useState(false);
 
-  useEffect(() => {
-    setIsCreateEnabled(service !== null && packaging !== null);
-  }, [service, packaging]);
+  const [deliveryTime, setDeliveryTime] = useState("");
+  const [distance, setDistance] = useState(null);
+  const [status, setStatus] = useState(null);
+  const [technicalStatus, setTechnicalStatus] = useState(null);
+  const [selectedFileUri, setSelectedFileUri] = useState(null);
+  const [formCreateDelivery, setFormCreateDelivery] = useState({
+    service,
+    packaging,
+    model,
+    number,
+    deliveryTime,
+    distance,
+    status,
+    technicalStatus,
+    selectedFileUri,
+  });
 
-  // Тестовые данные
-  const courierData = {
-    model: "V01",
-    number: "№123",
-    status: "В ожидании",
-    condition: "Исправно",
+  useEffect(() => {
+    setIsCreateEnabled(
+      service &&
+        packaging &&
+        model &&
+        number &&
+        deliveryTime &&
+        distance &&
+        status &&
+        technicalStatus
+    );
+    setFormCreateDelivery({
+      service,
+      packaging,
+      model,
+      number,
+      deliveryTime,
+      distance,
+      status,
+      technicalStatus,
+      selectedFileUri,
+    });
+  }, [
+    service,
+    packaging,
+    model,
+    number,
+    deliveryTime,
+    distance,
+    status,
+    technicalStatus,
+  ]);
+
+  const handleSelectFile = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled && result.assets.length > 0) {
+        setSelectedFileUri(result.assets[0].uri); // Получаем путь к изображению
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -197,14 +254,21 @@ const CreateDeliveryScreen = ({ navigation }) => {
     >
       <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
         <Card.Content>
-          <Text variant="titleMedium" style={styles.sectionTitle}>
-            Курьер
-          </Text>
           <View style={styles.row}>
-            <Text style={styles.sectionTitle}>
-              Модель и номер {courierData.model}, {courierData.number}
+            <Text style={styles.sectionTitle}>Модель и номер:</Text>
+            <Text>
+              {model} {number}
             </Text>
-            <Text>{">"}</Text>
+
+            <Button
+              mode="outlined"
+              onPress={() => {
+                navigation.navigate("ModelNumber", { setModel, setNumber });
+              }}
+              style={styles.serviceButton}
+            >
+              {">"}
+            </Button>
           </View>
 
           <Divider style={styles.divider} />
@@ -213,16 +277,25 @@ const CreateDeliveryScreen = ({ navigation }) => {
             <Text variant="titleMedium" style={styles.sectionTitle}>
               Время в пути
             </Text>
-            <Text>{">"}</Text>
+            <TextInput
+              value={deliveryTime}
+              onChangeText={setDeliveryTime}
+              style={styles.input}
+              keyboardType="numeric"
+            />
           </View>
-
           <Divider style={styles.divider} />
 
           <View style={styles.row}>
             <Text variant="titleMedium" style={styles.sectionTitle}>
               Дистанция
             </Text>
-            <Text>{">"}</Text>
+            <TextInput
+              value={distance}
+              onChangeText={setDistance}
+              keyboardType="numeric"
+              style={styles.input}
+            />
           </View>
 
           <Divider style={styles.divider} />
@@ -230,52 +303,91 @@ const CreateDeliveryScreen = ({ navigation }) => {
             <Text variant="titleMedium" style={styles.sectionTitle}>
               Медиафайл
             </Text>
-            <Text>{">"}</Text>
+
+            <TextInput
+              value={selectedFileUri}
+              editable={false}
+              style={styles.input}
+            />
+            <Button
+              style={styles.serviceButton}
+              mode="contained"
+              icon="upload"
+              onPress={handleSelectFile}
+            ></Button>
           </View>
 
           <Divider style={styles.divider} />
 
-          <Text variant="titleMedium" style={styles.sectionTitle}>
-            СТАТУС
-          </Text>
-          <Button
-            mode="outlined"
-            onPress={() =>
-              navigation.navigate("ServiceSelection", { setService })
-            }
-            style={styles.serviceButton}
-          >
-            {service || "1. Услуга >"}
-          </Button>
+          <View style={styles.row}>
+            <Text style={styles.sectionTitle}>Услуга:</Text>
+            <Text>{service}</Text>
+
+            <Button
+              mode="outlined"
+              onPress={() =>
+                navigation.navigate("ServiceSelection", { setService })
+              }
+              style={styles.serviceButton}
+            >
+              {">"}
+            </Button>
+          </View>
 
           <Divider style={styles.divider} />
 
-          <Text variant="titleMedium" style={styles.sectionTitle}>
-            Статус доставки
-          </Text>
-          <Text style={styles.statusText}>{courierData.status}</Text>
+          <View style={styles.row}>
+            <Text variant="titleMedium" style={styles.sectionTitle}>
+              Статус доставки
+            </Text>
+            <Text>{status}</Text>
+
+            <Button
+              mode="outlined"
+              onPress={() => navigation.navigate("Status", { setStatus })}
+              style={styles.serviceButton}
+            >
+              {">"}
+            </Button>
+          </View>
 
           <Divider style={styles.divider} />
 
-          <Text variant="titleMedium" style={styles.sectionTitle}>
-            Упаковка
-          </Text>
-          <Button
-            mode="outlined"
-            onPress={() =>
-              navigation.navigate("PackagingSelection", { setPackaging })
-            }
-            style={styles.serviceButton}
-          >
-            {packaging || "Выбрать упаковку >"}
-          </Button>
+          <View style={styles.row}>
+            <Text variant="titleMedium" style={styles.sectionTitle}>
+              Упаковка
+            </Text>
+            <Text>{packaging}</Text>
+
+            <Button
+              mode="outlined"
+              onPress={() =>
+                navigation.navigate("PackagingSelection", { setPackaging })
+              }
+              style={styles.serviceButton}
+            >
+              {">"}
+            </Button>
+          </View>
 
           <Divider style={styles.divider} />
 
-          <Text variant="titleMedium" style={styles.sectionTitle}>
-            Тех. исправность
-          </Text>
-          <Text style={styles.statusText}>{courierData.condition}</Text>
+          <View style={styles.row}>
+            <Text variant="titleMedium" style={styles.sectionTitle}>
+              Тех. исправность
+            </Text>
+            <Text>{technicalStatus}</Text>
+
+            <Button
+              mode="outlined"
+              onPress={() =>
+                navigation.navigate("PackagingSelection", { setPackaging })
+              }
+              style={styles.serviceButton}
+            >
+              {">"}
+            </Button>
+          </View>
         </Card.Content>
       </Card>
 
@@ -283,7 +395,7 @@ const CreateDeliveryScreen = ({ navigation }) => {
         mode="contained"
         style={styles.createButton}
         disabled={!isCreateEnabled}
-        onPress={() => console.log("Доставка создана")}
+        onPress={() => console.log("Доставка создана", formCreateDelivery)}
       >
         Создать
       </Button>
@@ -300,6 +412,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sectionTitle: {
+    padding: 2,
     marginBottom: 8,
     fontWeight: "bold",
   },
@@ -311,11 +424,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginVertical: 8,
   },
-  divider: {
-    marginVertical: 12,
-  },
   serviceButton: {
-    marginVertical: 8,
     borderColor: "#BB86FC",
   },
   statusText: {
@@ -324,8 +433,12 @@ const styles = StyleSheet.create({
   },
   createButton: {
     marginTop: "auto",
-    paddingVertical: 6,
-    backgroundColor: "#BB86FC",
+    paddingBottom: 3,
+    backgroundColor: "#BB8",
+    marginBottom: 50,
+  },
+  input: {
+    maxHeight: 5,
   },
 });
 

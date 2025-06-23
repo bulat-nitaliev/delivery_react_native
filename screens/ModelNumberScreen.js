@@ -3,18 +3,19 @@ import { View, ScrollView, StyleSheet } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
 import DetailDelivery from "../api/detailDelivery";
 
-const PackagingSelectionScreen = ({ navigation, route }) => {
+const ModelNumberScreen = ({ navigation, route }) => {
   const theme = useTheme();
-  const { setPackaging } = route.params;
-  const [packages, setResponse] = useState([])
+  const { setModel, setNumber } = route.params;
+  const [response, setResponse] = useState([])
 
   const handleSelect = (pack) => {
-    setPackaging(pack);
+    setNumber(pack.name);
+    setModel(pack.model_name);
     navigation.goBack();
   };
   useEffect(() => {
       const fetchPackage = async () => {
-        const data = await DetailDelivery.getPackage();
+        const data = await DetailDelivery.getNumberModel();
         setResponse(data)
       };
   
@@ -28,15 +29,15 @@ const PackagingSelectionScreen = ({ navigation, route }) => {
     >
       <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
         <Card.Content>
-          {packages.map((pack, index) => (
+          {response.map((pack, index) => (
             <View key={index}>
               <Button
                 mode="outlined"
                 style={styles.packItem}
-                onPress={() => handleSelect(pack.name)}
+                onPress={() => handleSelect(pack)}
               >
                 <View style={styles.serviceRow}>
-                  <Text>{pack.name}</Text>
+                  <Text>{pack.name} {pack.model_name}</Text>
                   <Text>Добавить</Text>
                 </View>
               </Button>
@@ -73,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PackagingSelectionScreen;
+export default ModelNumberScreen;

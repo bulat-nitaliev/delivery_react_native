@@ -1,17 +1,9 @@
-import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
-import { Button, Card, Text, useTheme } from 'react-native-paper';
+import React, { useEffect, useState } from "react";
+import { View, ScrollView, StyleSheet } from "react-native";
+import { Button, Card, Text, useTheme } from "react-native-paper";
+import DetailDelivery from "../api/detailDelivery";
 
-const services = [
-  'До клиента',
-  'Физ.лицо',
-  'Перемещение между складами',
-  'Юр.лицо',
-  'Документы',
-  'Мед.товары',
-  'Особые товары',
-  'Другое',
-];
+
 
 const ServiceSelectionScreen = ({ navigation, route }) => {
   const theme = useTheme();
@@ -21,44 +13,41 @@ const ServiceSelectionScreen = ({ navigation, route }) => {
     setService(service);
     navigation.goBack();
   };
+  const [response, setResponse] = useState([]);
+  useEffect(() => {
+    const fetchService = async () => {
+      const data = await DetailDelivery.getService();
+      console.log(data);
+
+      setResponse(data);
+    };
+
+    fetchService();
+  }, []);
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <ScrollView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
         <Card.Content>
-          {services.map((service, index) => (
+          {response.map((service, index) => (
             <View key={index}>
-              <Button 
-                mode="outlined" 
+              <Button
+                mode="outlined"
                 style={styles.serviceItem}
-                onPress={() => handleSelect(service)}
+                onPress={() => handleSelect(service.name)}
               >
                 <View style={styles.serviceRow}>
-                  <Text>{service}</Text>
-                  <Text>8 позиции</Text>
+                  <Text>{service.name}</Text>
+                  
                 </View>
               </Button>
               <View style={styles.divider} />
             </View>
           ))}
 
-          <Button 
-            mode="outlined" 
-            style={[styles.serviceItem, { borderColor: '#03DAC6' }]}
-            onPress={() => console.log('Температурный режим')}
-          >
-            <Text>Температурный режим</Text>
-            <Text>Добавить</Text>
-          </Button>
-
-          <Button 
-            mode="outlined" 
-            style={[styles.serviceItem, { borderColor: '#03DAC6' }]}
-            onPress={() => console.log('Хрупкий груз')}
-          >
-            <Text>Хрупкий груз</Text>
-            <Text>Добавить</Text>
-          </Button>
+          
         </Card.Content>
       </Card>
     </ScrollView>
@@ -75,16 +64,16 @@ const styles = StyleSheet.create({
   },
   serviceItem: {
     marginVertical: 4,
-    borderColor: '#BB86FC',
+    borderColor: "#BB86FC",
   },
   serviceRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
   divider: {
     height: 1,
-    backgroundColor: '#333',
+    backgroundColor: "#333",
     marginVertical: 8,
   },
 });

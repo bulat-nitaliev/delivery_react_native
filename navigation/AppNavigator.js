@@ -1,11 +1,13 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import PackagingSelectionScreen from "../screens/PackagingSelectionScreen";
 import DeliveryListScreen from "../screens/DeliveryListScreen";
-
+import ServiceSelectionScreen from "../screens/ServiceSelectionScreen";
 import DeliveryDetailScreen from "../screens/DeliveryDetailScreen";
 import CreateDeliveryScreen from "../screens/CreateDeliveryScreen";
+import ModelNumberScreen from "../screens/ModelNumberScreen"
+import StatusScreen from "../screens/StatusScreen"
 
 const Stack = createStackNavigator();
 
@@ -45,6 +47,16 @@ export default function AppNavigator() {
           name="PackagingSelection"
           component={PackagingSelectionScreen}
           options={{ title: "Упаковка" }}
+        />
+        <Stack.Screen
+          name="ModelNumber"
+          component={ModelNumberScreen}
+          options={{ title: "Модель и номер" }}
+        />
+        <Stack.Screen
+          name="Status"
+          component={StatusScreen}
+          options={{ title: "Модель и номер" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -5,16 +5,16 @@ import DetailDelivery from "../api/detailDelivery";
 
 const PackagingSelectionScreen = ({ navigation, route }) => {
   const theme = useTheme();
-  const { setPackaging } = route.params;
-  const [packages, setResponse] = useState([])
+  const { setStatus } = route.params;
+  const [status, setResponse] = useState([])
 
   const handleSelect = (pack) => {
-    setPackaging(pack);
+    setStatus(pack);
     navigation.goBack();
   };
   useEffect(() => {
       const fetchPackage = async () => {
-        const data = await DetailDelivery.getPackage();
+        const data = await DetailDelivery.getStatus();
         setResponse(data)
       };
   
@@ -28,7 +28,7 @@ const PackagingSelectionScreen = ({ navigation, route }) => {
     >
       <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
         <Card.Content>
-          {packages.map((pack, index) => (
+          {status.map((pack, index) => (
             <View key={index}>
               <Button
                 mode="outlined"
