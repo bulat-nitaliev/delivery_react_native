@@ -36,6 +36,16 @@ export default function AppNavigator() {
           component={CreateDeliveryScreen}
           options={{ title: "Новая доставка" }}
         />
+        <Stack.Screen
+          name="ServiceSelection"
+          component={ServiceSelectionScreen}
+          options={{ title: "Услуга" }}
+        />
+        <Stack.Screen
+          name="PackagingSelection"
+          component={PackagingSelectionScreen}
+          options={{ title: "Упаковка" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

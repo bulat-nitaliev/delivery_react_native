@@ -1,5 +1,3 @@
-
-
 // import React, { useState } from 'react';
 // import { ScrollView, StyleSheet } from 'react-native';
 // import { Appbar, TextInput, Button, RadioButton, Card } from 'react-native-paper';
@@ -38,7 +36,7 @@
 //       <Card style={styles.card}>
 //         <Card.Title title="Модель и номер" />
 //         <Card.Content>
-          
+
 //           <TextInput
 //             label="Модель"
 //             value={model}
@@ -135,9 +133,9 @@
 //         </Card.Content>
 //       </Card>
 
-//       <Button 
-//         mode="contained" 
-//         onPress={handleCreate} 
+//       <Button
+//         mode="contained"
+//         onPress={handleCreate}
 //         style={styles.button}
 //       >
 //         Создать доставку
@@ -164,13 +162,18 @@
 //   },
 // });
 
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet } from "react-native";
+import {
+  Button,
+  Card,
+  Text,
+  TextInput,
+  Divider,
+  useTheme,
+} from "react-native-paper";
 
-
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Button, Card, Text, TextInput, Divider, useTheme } from 'react-native-paper';
-
-const NewDeliveryScreen = ({ navigation }) => {
+const CreateDeliveryScreen = ({ navigation }) => {
   const theme = useTheme();
   const [service, setService] = useState(null);
   const [packaging, setPackaging] = useState(null);
@@ -182,80 +185,105 @@ const NewDeliveryScreen = ({ navigation }) => {
 
   // Тестовые данные
   const courierData = {
-    model: 'V01',
-    number: '№123',
-    status: 'В ожидании',
-    condition: 'Исправно',
+    model: "V01",
+    number: "№123",
+    status: "В ожидании",
+    condition: "Исправно",
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
         <Card.Content>
-          <Text variant="titleMedium" style={styles.sectionTitle}>КУРЬЕР</Text>
-          <Text style={styles.courierText}>Модель и номер    {courierData.model}, {courierData.number}</Text>
-          
-          <Divider style={styles.divider} />
-          
-          <Text variant="titleMedium" style={styles.sectionTitle}>Время в пути</Text>
+          <Text variant="titleMedium" style={styles.sectionTitle}>
+            Курьер
+          </Text>
           <View style={styles.row}>
-            <Text>Отправка</Text>
-            <Text>{'>'}</Text>
-            <Text>Доставка</Text>
+            <Text style={styles.sectionTitle}>
+              Модель и номер {courierData.model}, {courierData.number}
+            </Text>
+            <Text>{">"}</Text>
           </View>
-          
+
           <Divider style={styles.divider} />
-          
-          <Text variant="titleMedium" style={styles.sectionTitle}>Дистанция</Text>
+
           <View style={styles.row}>
-            <Text>Откуда</Text>
-            <Text>{'>'}</Text>
-            <Text>Куда</Text>
+            <Text variant="titleMedium" style={styles.sectionTitle}>
+              Время в пути
+            </Text>
+            <Text>{">"}</Text>
           </View>
-          
+
           <Divider style={styles.divider} />
-          
-          <Text variant="titleMedium" style={styles.sectionTitle}>Медиафайл</Text>
-          
+
+          <View style={styles.row}>
+            <Text variant="titleMedium" style={styles.sectionTitle}>
+              Дистанция
+            </Text>
+            <Text>{">"}</Text>
+          </View>
+
           <Divider style={styles.divider} />
-          
-          <Text variant="titleMedium" style={styles.sectionTitle}>СТАТУС</Text>
-          <Button 
-            mode="outlined" 
-            onPress={() => navigation.navigate('ServiceSelection', { setService })}
+          <View style={styles.row}>
+            <Text variant="titleMedium" style={styles.sectionTitle}>
+              Медиафайл
+            </Text>
+            <Text>{">"}</Text>
+          </View>
+
+          <Divider style={styles.divider} />
+
+          <Text variant="titleMedium" style={styles.sectionTitle}>
+            СТАТУС
+          </Text>
+          <Button
+            mode="outlined"
+            onPress={() =>
+              navigation.navigate("ServiceSelection", { setService })
+            }
             style={styles.serviceButton}
           >
-            {service || '1. Услуга >'}
+            {service || "1. Услуга >"}
           </Button>
-          
+
           <Divider style={styles.divider} />
-          
-          <Text variant="titleMedium" style={styles.sectionTitle}>Статус доставки</Text>
+
+          <Text variant="titleMedium" style={styles.sectionTitle}>
+            Статус доставки
+          </Text>
           <Text style={styles.statusText}>{courierData.status}</Text>
-          
+
           <Divider style={styles.divider} />
-          
-          <Text variant="titleMedium" style={styles.sectionTitle}>Упаковка</Text>
-          <Button 
-            mode="outlined" 
-            onPress={() => navigation.navigate('PackagingSelection', { setPackaging })}
+
+          <Text variant="titleMedium" style={styles.sectionTitle}>
+            Упаковка
+          </Text>
+          <Button
+            mode="outlined"
+            onPress={() =>
+              navigation.navigate("PackagingSelection", { setPackaging })
+            }
             style={styles.serviceButton}
           >
-            {packaging || 'Выбрать упаковку >'}
+            {packaging || "Выбрать упаковку >"}
           </Button>
-          
+
           <Divider style={styles.divider} />
-          
-          <Text variant="titleMedium" style={styles.sectionTitle}>Тех. исправность</Text>
+
+          <Text variant="titleMedium" style={styles.sectionTitle}>
+            Тех. исправность
+          </Text>
           <Text style={styles.statusText}>{courierData.condition}</Text>
         </Card.Content>
       </Card>
 
-      <Button 
-        mode="contained" 
-        style={styles.createButton} 
+      <Button
+        mode="contained"
+        style={styles.createButton}
         disabled={!isCreateEnabled}
-        onPress={() => console.log('Доставка создана')}
+        onPress={() => console.log("Доставка создана")}
       >
         Создать
       </Button>
@@ -273,14 +301,14 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     marginBottom: 8,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   courierText: {
     marginBottom: 12,
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginVertical: 8,
   },
   divider: {
@@ -288,17 +316,17 @@ const styles = StyleSheet.create({
   },
   serviceButton: {
     marginVertical: 8,
-    borderColor: '#BB86FC',
+    borderColor: "#BB86FC",
   },
   statusText: {
     marginVertical: 8,
-    color: '#03DAC6',
+    color: "#03DAC6",
   },
   createButton: {
-    marginTop: 'auto',
+    marginTop: "auto",
     paddingVertical: 6,
-    backgroundColor: '#BB86FC',
+    backgroundColor: "#BB86FC",
   },
 });
 
-export default NewDeliveryScreen;
+export default CreateDeliveryScreen;
