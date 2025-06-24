@@ -1,4 +1,3 @@
-
 // import * as ImagePicker from "expo-image-picker";
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
@@ -22,17 +21,19 @@ const CreateDeliveryScreen = ({ navigation }) => {
   const [deliveryTime, setDeliveryTime] = useState("");
   const [distance, setDistance] = useState(null);
   const [status, setStatus] = useState(null);
-  const [technicalStatus, setTechnicalStatus] = useState(null);
+  const [technicalStatus, setTechnicalStatus] = useState("");
   // const [selectedFileUri, setSelectedFileUri] = useState(null);
 
   useEffect(() => {
+    
+
     setIsCreateEnabled(
-      service &&
-        packaging &&
-        modelNumber &&
+      service?.name &&
+        packaging?.name &&
+        modelNumber?.name &&
         deliveryTime &&
         distance &&
-        status &&
+        status?.name &&
         technicalStatus
     );
   }, [
@@ -73,7 +74,7 @@ const CreateDeliveryScreen = ({ navigation }) => {
       user: 1,
       service: [service.id],
     };
-    await createDelivery(forms)
+    await createDelivery(forms);
     navigation.navigate("DeliveryList");
   };
 
@@ -219,15 +220,18 @@ const CreateDeliveryScreen = ({ navigation }) => {
           </View>
         </Card.Content>
       </Card>
-
-      <Button
-        mode="contained"
-        style={styles.createButton}
-        disabled={!isCreateEnabled}
-        onPress={() => funFormCreate()}
-      >
-        Создать
-      </Button>
+      {isCreateEnabled ? (
+        <Button
+          mode="contained"
+          style={styles.createButton}
+          // disabled={!isCreateEnabled}
+          onPress={() => funFormCreate()}
+        >
+          Создать
+        </Button>
+      ) : (
+        <View></View>
+      )}
     </View>
   );
 };

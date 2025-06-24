@@ -42,6 +42,7 @@ export const createDelivery = async (deliveryData) => {
       },
     };
     const response = await $api.post(`/api/deliveries/`, deliveryData, config);
+    
     return response.data;
   } catch (error) {
     console.error("Ошибка при создании доставки:", error);

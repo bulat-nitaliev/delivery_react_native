@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "task_delivery",
+    "name": "task",
     "slug": "task",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,10 +20,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.bulat_nitaliev.task"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2d066082-9a2d-46f9-988d-2de28742694d"
+      }
     }
   }
 }
