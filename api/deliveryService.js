@@ -35,7 +35,13 @@ export const getDeliveries = async () => {
 
 export const createDelivery = async (deliveryData) => {
   try {
-    const response = await $api.post(`/api/deliveries/`, deliveryData);
+    const config = {
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await $api.post(`/api/deliveries/`, deliveryData, config);
     return response.data;
   } catch (error) {
     console.error("Ошибка при создании доставки:", error);
@@ -56,7 +62,6 @@ export const updateDelivery = async (id, deliveryData) => {
       deliveryData,
       config
     );
-    console.log(response.data);
 
     return response.data;
   } catch (error) {

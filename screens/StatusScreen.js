@@ -3,7 +3,7 @@ import { View, ScrollView, StyleSheet } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
 import DetailDelivery from "../api/detailDelivery";
 
-const PackagingSelectionScreen = ({ navigation, route }) => {
+const StatusScreen = ({ navigation, route }) => {
   const theme = useTheme();
   const { setStatus } = route.params;
   const [status, setResponse] = useState([])
@@ -33,7 +33,7 @@ const PackagingSelectionScreen = ({ navigation, route }) => {
               <Button
                 mode="outlined"
                 style={styles.packItem}
-                onPress={() => handleSelect(pack.name)}
+                onPress={() => handleSelect(pack)}
               >
                 <View style={styles.serviceRow}>
                   <Text>{pack.name}</Text>
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PackagingSelectionScreen;
+export default StatusScreen;

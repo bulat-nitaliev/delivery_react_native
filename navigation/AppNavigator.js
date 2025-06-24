@@ -8,6 +8,7 @@ import DeliveryDetailScreen from "../screens/DeliveryDetailScreen";
 import CreateDeliveryScreen from "../screens/CreateDeliveryScreen";
 import ModelNumberScreen from "../screens/ModelNumberScreen"
 import StatusScreen from "../screens/StatusScreen"
+import TechnicalScreen from "../screens/TechnicalScreen"
 
 const Stack = createStackNavigator();
 
@@ -56,7 +57,12 @@ export default function AppNavigator() {
         <Stack.Screen
           name="Status"
           component={StatusScreen}
-          options={{ title: "Модель и номер" }}
+          options={{ title: "Статус доставки" }}
+        />
+        <Stack.Screen
+          name="Technical"
+          component={TechnicalScreen}
+          options={{ title: "Техническое состояние" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

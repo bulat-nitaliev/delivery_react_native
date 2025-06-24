@@ -3,27 +3,17 @@ import { View, ScrollView, StyleSheet } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
 import DetailDelivery from "../api/detailDelivery";
 
-
-
-const ServiceSelectionScreen = ({ navigation, route }) => {
+const TechnicalScreen = ({ navigation, route }) => {
   const theme = useTheme();
-  const { setService } = route.params;
+  const { setTechnicalStatus } = route.params;
+  const technical = ["исправно", "не исправно"]
 
-  const handleSelect = (service) => {
-    setService(service);
+  const handleSelect = (pack) => {
+    setTechnicalStatus(pack);
     navigation.goBack();
   };
-  const [response, setResponse] = useState([]);
-  useEffect(() => {
-    const fetchService = async () => {
-      const data = await DetailDelivery.getService();
-      console.log(data);
-
-      setResponse(data);
-    };
-
-    fetchService();
-  }, []);
+  
+  
 
   return (
     <ScrollView
@@ -31,23 +21,21 @@ const ServiceSelectionScreen = ({ navigation, route }) => {
     >
       <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
         <Card.Content>
-          {response.map((service, index) => (
+          {technical.map((pack, index) => (
             <View key={index}>
               <Button
                 mode="outlined"
-                style={styles.serviceItem}
-                onPress={() => handleSelect(service)}
+                style={styles.packItem}
+                onPress={() => handleSelect(pack)}
               >
                 <View style={styles.serviceRow}>
-                  <Text>{service.name}</Text>
-                  
+                  <Text>{pack}</Text>
+                  <Text>Добавить</Text>
                 </View>
               </Button>
               <View style={styles.divider} />
             </View>
           ))}
-
-          
         </Card.Content>
       </Card>
     </ScrollView>
@@ -62,8 +50,8 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 20,
   },
-  serviceItem: {
-    marginVertical: 4,
+  packItem: {
+    marginVertical: 8,
     borderColor: "#BB86FC",
   },
   serviceRow: {
@@ -74,8 +62,8 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: "#333",
-    marginVertical: 8,
+    marginVertical: 4,
   },
 });
 
-export default ServiceSelectionScreen;
+export default TechnicalScreen;

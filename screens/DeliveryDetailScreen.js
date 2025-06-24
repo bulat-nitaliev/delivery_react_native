@@ -14,7 +14,6 @@ export default function DeliveryDetailScreen({ route, navigation }) {
     const dataDelivery = {
       stutus_delivery: 1 ,
     };
-    console.log(dataDelivery);
 
     await updateDelivery(item.id, dataDelivery);
     navigation.navigate("DeliveryList");
@@ -25,10 +24,7 @@ export default function DeliveryDetailScreen({ route, navigation }) {
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title={`Доставка № ${delivery.id}`} />
-        {/* <Appbar.Action
-          icon="pencil"
-          onPress={() => navigation.navigate("EditDelivery", { delivery })}
-        /> */}
+     
       </Appbar.Header>
 
       {/* Основная информация */}

@@ -33,7 +33,7 @@ const PackagingSelectionScreen = ({ navigation, route }) => {
               <Button
                 mode="outlined"
                 style={styles.packItem}
-                onPress={() => handleSelect(pack.name)}
+                onPress={() => handleSelect(pack)}
               >
                 <View style={styles.serviceRow}>
                   <Text>{pack.name}</Text>

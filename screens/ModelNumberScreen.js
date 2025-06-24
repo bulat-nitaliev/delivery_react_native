@@ -5,12 +5,11 @@ import DetailDelivery from "../api/detailDelivery";
 
 const ModelNumberScreen = ({ navigation, route }) => {
   const theme = useTheme();
-  const { setModel, setNumber } = route.params;
+  const { setModelNumber } = route.params;
   const [response, setResponse] = useState([])
 
   const handleSelect = (pack) => {
-    setNumber(pack.name);
-    setModel(pack.model_name);
+    setModelNumber(pack);
     navigation.goBack();
   };
   useEffect(() => {
