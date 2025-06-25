@@ -28,7 +28,7 @@ const PackagingSelectionScreen = ({ navigation, route }) => {
     >
       <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
         <Card.Content>
-          {packages.map((pack, index) => (
+          {packages?.map((pack, index) => (
             <View key={index}>
               <Button
                 mode="outlined"

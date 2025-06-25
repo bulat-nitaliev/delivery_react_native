@@ -6,16 +6,16 @@ import { getDeliveries, updateDelivery } from "../api/deliveryService";
 
 export default function DeliveryListScreen({ navigation }) {
   const [deliveries, setDeliveries] = useState([]);
-  const [isUpdate, setISUpdate] = useState(false)
+  const [isUpdate, setISUpdate] = useState(false);
 
   const updateStatus = async (item) => {
     const dataDelivery = {
       stutus_delivery: 1,
     };
-    setISUpdate(true)
+    setISUpdate(true);
     await updateDelivery(item.id, dataDelivery);
     navigation.navigate("DeliveryList");
-    setISUpdate(!isUpdate)
+    setISUpdate(!isUpdate);
   };
 
   useEffect(() => {

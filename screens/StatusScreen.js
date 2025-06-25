@@ -28,7 +28,7 @@ const StatusScreen = ({ navigation, route }) => {
     >
       <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
         <Card.Content>
-          {status.map((pack, index) => (
+          {status?.map((pack, index) => (
             <View key={index}>
               <Button
                 mode="outlined"

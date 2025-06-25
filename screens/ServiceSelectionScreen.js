@@ -31,7 +31,7 @@ const ServiceSelectionScreen = ({ navigation, route }) => {
     >
       <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
         <Card.Content>
-          {response.map((service, index) => (
+          {response?.map((service, index) => (
             <View key={index}>
               <Button
                 mode="outlined"

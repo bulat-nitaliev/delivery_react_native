@@ -28,7 +28,7 @@ const ModelNumberScreen = ({ navigation, route }) => {
     >
       <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
         <Card.Content>
-          {response.map((pack, index) => (
+          {response?.map((pack, index) => (
             <View key={index}>
               <Button
                 mode="outlined"
