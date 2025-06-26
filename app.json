@@ -1,15 +1,29 @@
 {
   "expo": {
-    "android": {
-      "usesCleartextTraffic": true
-    },
-    "ios": {
-      "supportsTablet": true,
-      "infoPlist": {
-        "NSAppTransportSecurity": {
-          "NSAllowsArbitraryLoads": true
-        }
+    "extra": {
+      "eas": {
+        "projectId": "1021913b-6112-46b2-aa29-0d6058482ec5"
       }
-    }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/1021913b-6112-46b2-aa29-0d6058482ec5"
+    },
+    "android": {
+      "package": "com.bulat_nitaliev.task"
+    },
+    "ios": {},
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ]
   }
 }
